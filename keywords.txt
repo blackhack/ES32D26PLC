@@ -1,0 +1,21 @@
+#######################################
+# Syntax Coloring Map For ES32D26PLC
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+ES32D26PLC    KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+digitalWrite  KEYWORD2
+byteWrite     KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+PIN_SER_74HC595    LITERAL1
+PIN_SRCLK_74HC595  LITERAL1
+PIN_RCLK_74HC595   LITERAL1
