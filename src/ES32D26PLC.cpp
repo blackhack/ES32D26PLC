@@ -17,6 +17,9 @@ void ES32D26PLC::begin()
 
 void ES32D26PLC::digitalWrite(uint8_t channel, uint8_t value)
 {
+    if (channel < 1 || channel > 8)
+        return;
+
     if (value == HIGH)
         _current_byte_state |= (1 << (7 - (channel - 1)));
     else
@@ -44,3 +47,18 @@ void ES32D26PLC::sendByte()
 
     ::digitalWrite(PIN_RCLK_74HC595, HIGH);
 }
+
+uint8_t ES32D26PLC::digitalRead(uint8_t channel) const
+{
+    if (channel < 1 || channel > 8)
+        return LOW;
+
+    return (_current_byte_state & (1 << (7 - (channel - 1)))) ? HIGH : LOW;
+}
+
+uint8_t ES32D26PLC::byteRead() const
+{
+    return _current_byte_state;
+}
+
+ES32D26PLC ES32D26;

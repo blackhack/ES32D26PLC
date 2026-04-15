@@ -17,6 +17,20 @@
   "platforms": ["espressif32"],
   "license": "MIT",
   "examples": [
-    "examples/RelayOutput/RelayOutput.ino"
+    {
+      "name": "RelayByteWrite",
+      "folder": "RelayByteWrite",
+      "files": ["RelayByteWrite.ino"]
+    },
+    {
+      "name": "RelayDigitalWrite",
+      "folder": "RelayDigitalWrite",
+      "files": ["RelayDigitalWrite.ino"]
+    },
+    {
+      "name": "RelayRead",
+      "folder": "RelayRead",
+      "files": ["RelayRead.ino"]
+    }
   ]
 }
