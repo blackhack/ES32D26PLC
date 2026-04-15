@@ -19,6 +19,7 @@ public:
     // Relay Output Control
     void digitalWrite(uint8_t channel, uint8_t value);
     void byteWrite(uint8_t value);
+    void clearAll() { byteWrite(0x00); }
     uint8_t digitalRead(uint8_t channel) const;
     uint8_t byteRead() const;
 
