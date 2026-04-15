@@ -1,5 +1,4 @@
 #include "ES32D26PLC.h"
-#include "utilities.h"
 
 ES32D26PLC::ES32D26PLC()
 {
