@@ -20,7 +20,7 @@ class ES32D26PLC
 public:
     ES32D26PLC();
 
-    void begin();
+    void begin(bool invert_input_logic = false);
 
     /* Relay Output Control */
     void digitalWrite(uint8_t channel, uint8_t value);
@@ -38,6 +38,7 @@ public:
 private:
     void sendByteRelay();
     uint8_t _relay_byte_state = 0x00;
+    bool _invert_input_logic = false; // If true, HIGH will be read as LOW and vice versa, only for digitalRead and byteRead
 
     /* Utilities functions not part of the main logic */
 public:

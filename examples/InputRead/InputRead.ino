@@ -3,7 +3,9 @@
 void setup()
 {
   Serial.begin(115200);
-  ES32D26.begin();
+
+  ES32D26.begin(); // By default the inputs are HIGH when open and LOW when closed, that is because on this board you connect them to ground to close the circuit.
+  //ES32D26.begin(true); // But if you pass true as argument for .begin(), the logic will be inverted, so is more intuitive.
 
   Serial.println("All Input Channels: " + ES32D26.byteToStr(ES32D26.byteRead()));
   Serial.println("IN1: " + String(ES32D26.digitalRead(1) == HIGH ? "HIGH" : "LOW"));

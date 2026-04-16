@@ -4,8 +4,10 @@ ES32D26PLC::ES32D26PLC()
 {
 }
 
-void ES32D26PLC::begin()
+void ES32D26PLC::begin(bool invert_input_logic)
 {
+    _invert_input_logic = invert_input_logic;
+    
     pinMode(PIN_SER_74HC595, OUTPUT);
     pinMode(PIN_OE_74HC595, OUTPUT);
     pinMode(PIN_RCLK_74HC595, OUTPUT);
@@ -72,7 +74,7 @@ uint8_t ES32D26PLC::byteReadRelay() const
 uint8_t ES32D26PLC::digitalRead(uint8_t channel) const
 {
     if (channel < 1 || channel > 8)
-        return LOW;
+        return _invert_input_logic ? LOW : HIGH;
 
     uint8_t input_byte = byteRead();
     return (input_byte & (1 << (7 - (channel - 1)))) ? HIGH : LOW;
@@ -96,20 +98,20 @@ uint8_t ES32D26PLC::byteRead() const
         ::digitalWrite(PIN_CLK_74HC165, HIGH);
     }
 
-    return input_byte;
+    return _invert_input_logic ? ~input_byte : input_byte;
 }
 
 /* Utilities functions not part of the main logic */
 
 uint8_t ES32D26PLC::reverseByte(uint8_t b)
 {
-    uint8_t r = 0;
+    uint8_t result = 0;
     for (int i = 0; i < 8; ++i)
     {
         if (b & (1 << i))
-            r |= (1 << (7 - i));
+            result |= (1 << (7 - i));
     }
-    return r;
+    return result;
 }
 
 String ES32D26PLC::byteToStr(uint8_t value)
