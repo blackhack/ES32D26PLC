@@ -42,7 +42,7 @@ void ES32D26PLC::byteWrite(uint8_t value)
     sendByteRelay();
 }
 
-void ES32D26PLC::sendByteRelay()
+void ES32D26PLC::sendByteRelay() const
 {
     ::digitalWrite(PIN_RCLK_74HC595, LOW);
 

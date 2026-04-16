@@ -6,16 +6,19 @@
 # Datatypes (KEYWORD1)
 #######################################
 ES32D26PLC    KEYWORD1
+ES32D26       KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
-digitalWrite  KEYWORD2
-byteWrite     KEYWORD2
+begin             KEYWORD2
+digitalWrite      KEYWORD2
+byteWrite         KEYWORD2
+clearAll          KEYWORD2
+digitalReadRelay  KEYWORD2
+byteReadRelay     KEYWORD2
+digitalRead       KEYWORD2
+byteRead          KEYWORD2
+reverseByte       KEYWORD2
+byteToStr         KEYWORD2
 
-#######################################
-# Constants (LITERAL1)
-#######################################
-PIN_SER_74HC595    LITERAL1
-PIN_SRCLK_74HC595  LITERAL1
-PIN_RCLK_74HC595   LITERAL1

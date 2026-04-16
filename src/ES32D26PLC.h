@@ -36,7 +36,7 @@ public:
     uint8_t byteRead() const;
 
 private:
-    void sendByteRelay();
+    void sendByteRelay() const;
     uint8_t _relay_byte_state = 0x00;
     bool _invert_input_logic = false; // If true, HIGH will be read as LOW and vice versa, only for digitalRead and byteRead
 
