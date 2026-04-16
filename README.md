@@ -58,8 +58,8 @@ Returns a string representation of a byte including leading zeros. This is helpf
 
 | Method | Example Output for `0b00001111` |
 | :--- | :--- |
-| `Serial.print(val, BIN)` | `"1111"` |
-| `plc.byteToStr(val)` | `"00001111"` |
+| `Serial.print(0b00001111, BIN)` | `"1111"` |
+| `Serial.print(ES32D26.byteToStr(0b00001111))` | `"00001111"` |
 
 ---
 
