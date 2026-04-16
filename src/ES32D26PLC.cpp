@@ -45,12 +45,15 @@ void ES32D26PLC::byteWrite(uint8_t value)
 void ES32D26PLC::sendByteRelay() const
 {
     ::digitalWrite(PIN_RCLK_74HC595, LOW);
+    delayMicroseconds(1);
 
     for (int i = 0; i < 8; ++i)
     {
         ::digitalWrite(PIN_SER_74HC595, (_relay_byte_state & (1 << i)) ? HIGH : LOW);
         ::digitalWrite(PIN_SRCLK_74HC595, LOW);
+        delayMicroseconds(1);
         ::digitalWrite(PIN_SRCLK_74HC595, HIGH);
+        delayMicroseconds(1);
     }
 
     ::digitalWrite(PIN_RCLK_74HC595, HIGH);
@@ -85,7 +88,9 @@ uint8_t ES32D26PLC::byteRead() const
     uint8_t input_byte = 0x00;
 
     ::digitalWrite(PIN_SH_74HC165, LOW);
+    delayMicroseconds(1);
     ::digitalWrite(PIN_SH_74HC165, HIGH);
+    delayMicroseconds(1);
 
     for (int i = 0; i < 8; ++i)
     {
@@ -95,7 +100,9 @@ uint8_t ES32D26PLC::byteRead() const
             input_byte |= (1 << i);
 
         ::digitalWrite(PIN_CLK_74HC165, LOW);
+        delayMicroseconds(1);
         ::digitalWrite(PIN_CLK_74HC165, HIGH);
+        delayMicroseconds(1);
     }
 
     return _invert_input_logic ? ~input_byte : input_byte;
