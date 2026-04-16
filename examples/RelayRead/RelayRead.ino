@@ -13,17 +13,17 @@ void setup()
   ES32D26.digitalWrite(4, HIGH);
 
   // Read the whole byte
-  Serial.println("All Channels: " + String(ES32D26.byteRead(), BIN));
+  Serial.println("All Channels: " + ES32D26.byteToStr(ES32D26.byteReadRelay()));
 
   // Read individual channels
   for (uint8_t channel = 1; channel <= 8; ++channel)
-    Serial.println("Channel " + String(channel) + ": " + (ES32D26.digitalRead(channel) == HIGH ? "HIGH" : "LOW"));
+    Serial.println("Channel " + String(channel) + ": " + (ES32D26.digitalReadRelay(channel) == HIGH ? "HIGH" : "LOW"));
 
     delay(5000); // Wait for 5 seconds before turning off the channels
 
   // We can clear all channels at once using clearAll
   ES32D26.clearAll();
-  Serial.println("All Channels after clear: " + String(ES32D26.byteRead(), BIN));
+  Serial.println("All Channels after clear: " + ES32D26.byteToStr(ES32D26.byteReadRelay()));
 }
 
 void loop()
