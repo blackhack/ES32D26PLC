@@ -1,4 +1,5 @@
 #include "ES32D26PLC.h"
+#include <Preferences.h>
 
 ES32D26PLC::ES32D26PLC()
 {
@@ -19,6 +20,8 @@ void ES32D26PLC::begin(bool invert_input_logic)
 
     clearAll(); // Initialize the relay state to all LOW
     digitalWrite(PIN_OE_74HC595, LOW); // Enable the output of the relays shift register
+
+    LoadInputFactors(); // Load voltage input calibration factors from storage
 }
 
 /* Relay Output Control */
@@ -108,6 +111,75 @@ uint8_t ES32D26PLC::byteRead() const
     return _invert_input_logic ? ~input_byte : input_byte;
 }
 
+double ES32D26PLC::rawVoltageRead(uint8_t channel) const
+{
+    if (channel < 1 || channel > 4)
+        return 0;
+
+    double rawValue = analogReadMilliVolts(voltageInputChannels[channel - 1]);
+    return rawValue/1000.0;
+}
+
+double ES32D26PLC::readVoltage(uint8_t channel) const
+{
+    return rawVoltageRead(channel) * _voltage_input_factors[channel - 1];
+}
+
+void ES32D26PLC::CalibrateVoltageInputFactor(double ref_voltage, uint8_t channel)
+{
+    if (channel < 1 || channel > 4)
+        return;
+
+    Serial.printf("Prepare channel %u with reference voltage: %.2f V\n", channel, ref_voltage);
+    Serial.println("Press Enter when ready to start calibration...");
+
+    // Wait for Enter or any key start the calibration
+    while (!Serial.available());
+    while (Serial.available()) Serial.read();
+
+    // Average readings to get a stable voltage
+    double sum = 0;
+    for (int i = 0; i < 50; i++)
+        sum += rawVoltageRead(channel);
+        
+    double rawVoltage = sum / 50;
+    double factor = ref_voltage / rawVoltage;
+    _voltage_input_factors[channel - 1] = factor;
+    SaveInputFactors();
+
+    Serial.printf("Raw voltage: %.2f V, Calibration factor: %.2f, New voltage: %.2f V\n", rawVoltage, factor, rawVoltage * factor);
+    Serial.println("Factor saved.");
+}
+
+void ES32D26PLC::ClearFactors()
+{
+    for (int i = 0; i < 4; i++)
+        _voltage_input_factors[i] = 5.0;
+    SaveInputFactors();
+}
+
+void ES32D26PLC::LoadInputFactors()
+{
+    Preferences preferences;
+    preferences.begin("ES32D26PLC", true);
+
+    for (int i = 1; i <= 4; i++)
+        _voltage_input_factors[i-1] = preferences.getDouble((String("vi_factors_") + i).c_str(), 5.0);
+    
+    preferences.end();
+}
+
+void ES32D26PLC::SaveInputFactors()
+{
+    Preferences preferences;
+    preferences.begin("ES32D26PLC", false);
+
+    for (int i = 1; i <= 4; i++)
+        preferences.putDouble((String("vi_factors_") + i).c_str(), _voltage_input_factors[i-1]);
+    
+    preferences.end();
+}
+
 /* Utilities functions not part of the main logic */
 
 uint8_t ES32D26PLC::reverseByte(uint8_t b)
@@ -133,4 +205,5 @@ String ES32D26PLC::byteToStr(uint8_t value)
     }
     return result;
 }
+
 ES32D26PLC ES32D26;

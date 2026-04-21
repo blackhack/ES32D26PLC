@@ -1,6 +1,6 @@
 {
   "name": "ES32D26PLC",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Library for controlling ES32D26 PLC board with relays, digital inputs, free outputs, analog inputs/outputs, and utilities. Works with Arduino, ESP32 Arduino, and ESP-IDF (Arduino as component).",
   "keywords": ["esp32", "PLC", "relay", "inputs", "outputs", "analog", "74HC595"],
   "authors": [
@@ -17,6 +17,16 @@
   "platforms": ["espressif32"],
   "license": "MIT",
   "examples": [
+    {
+      "name": "CalibrateViFactors",
+      "folder": "CalibrateViFactors",
+      "files": ["CalibrateViFactors.ino"]
+    },
+    {
+      "name": "InputRead",
+      "folder": "InputRead",
+      "files": ["InputRead.ino"]
+    },
     {
       "name": "RelayByteWrite",
       "folder": "RelayByteWrite",
